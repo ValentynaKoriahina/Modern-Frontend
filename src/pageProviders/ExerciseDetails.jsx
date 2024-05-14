@@ -1,14 +1,14 @@
 import React from 'react';
-import ExercisesList from 'pages/exercisesList';
+import ExerciseDetails from 'pages/exerciseDetails';
 
 import PageContainer from './components/PageContainer';
 
-const Exercises = (props) => {
+const Exercise = (props) => {
   return (
     <PageContainer>
-      <ExercisesList {...props} />
+      <ExerciseDetails {...props} />
     </PageContainer>
   );
 };
 
-export default Exercises;
+export default Exercise;

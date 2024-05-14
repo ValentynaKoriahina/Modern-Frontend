@@ -18,6 +18,8 @@ import PageContainer from 'pageProviders/components/PageContainer';
 import pageURLs from 'constants/pagesURLs';
 import SecretPage from 'pageProviders/Secret';
 import Exercises from 'pageProviders/ExercisesList';
+import ExerciseDetails from 'pageProviders/ExerciseDetails';
+
 
 
 
@@ -25,8 +27,6 @@ import ThemeProvider from 'misc/providers/ThemeProvider';
 import UserProvider from 'misc/providers/UserProvider';
 
 import actionsUser from '../actions/user';
-import actionsExercise from '../actions/exercise';
-
 
 import Header from '../components/Header';
 import IntlProvider from '../components/IntlProvider';
@@ -87,10 +87,13 @@ function App() {
                       path={`${pageURLs[pages.secretPage]}`}
                     />
                     <Route
-                      element={(
-                        <Exercises />
-                      )}
+                      element={(<Exercises />)}
                       path={`${pageURLs[pages.exercisesList]}`}
+                    />
+                    <Route
+                      element={(<ExerciseDetails />)}
+                      path={`${pageURLs[pages.exercise]}`}
+                    // path={`${pageURLs[pages.exercise]}/:id`}
                     />
                     <Route
                       element={(
