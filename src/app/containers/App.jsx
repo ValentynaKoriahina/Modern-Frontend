@@ -92,8 +92,7 @@ function App() {
                     />
                     <Route
                       element={(<ExerciseDetails />)}
-                      path={`${pageURLs[pages.exercise]}`}
-                    // path={`${pageURLs[pages.exercise]}/:id`}
+                      path={`${pageURLs[pages.exercise]}/:id`}
                     />
                     <Route
                       element={(

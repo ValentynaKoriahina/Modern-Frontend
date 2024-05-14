@@ -1,6 +1,3 @@
-
-
-// export default ExercisesList;
 import { useIntl } from 'react-intl';
 import Typography from 'components/Typography';
 import React, { useEffect, useState } from 'react';
@@ -8,9 +5,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchExercises, deleteExercise } from '../../../app/actions/exercise';
 import IconButton from 'components/IconButton/IconButton';
 import TrashBinIcon from 'pages/exercisesList/components/icons/TrashBinIcon';
-import DeleteConfirmationDialog from '../components/DeleteConfirmationDialog/DeleteConfirmationDialog';
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
+import DeleteConfirmationDialog from '../components/DeleteConfirmationDialog';
+import NotificationSnackbar from '../components/NotificationSnackbar';
+import { Link } from 'react-router-dom';
+// import config from './config';
+import pages from 'constants/pagesURLs';
 
 function ExercisesList() {
   const dispatch = useDispatch();
@@ -24,7 +23,7 @@ function ExercisesList() {
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
   const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(''); // Добавлено состояние для сообщения об ошибке
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     dispatch(fetchExercises());
@@ -47,7 +46,7 @@ function ExercisesList() {
       dispatch(deleteExercise(selectedExercise.id))
         .then(() => {
           setShowDeleteDialog(false);
-          setSnackbarMessage('Видлено успішно');
+          setSnackbarMessage('Видалено успішно');
           setSnackbarSeverity('success');
           setSnackbarOpen(true);
         })
@@ -56,7 +55,7 @@ function ExercisesList() {
         })
         .finally(() => {
           setLoading(false);
-          
+
         });
     }
   };
@@ -85,7 +84,9 @@ function ExercisesList() {
             onMouseEnter={() => setHoveredExercise(exercise)}
             onMouseLeave={() => setHoveredExercise(null)}
           >
-            {exercise.topic} (Рівень складності: {exercise.difficultyRange})
+            <Link to={`${pages.exercise}/${exercise.id}`}>
+              {exercise.topic} (Рівень складності: {exercise.difficultyRange})
+            </Link>
             {hoveredExercise === exercise && (
               <IconButton aria-label="delete" onClick={() => handleDeleteClick(exercise)}>
                 <TrashBinIcon />
@@ -101,18 +102,14 @@ function ExercisesList() {
         loading={loading}
         errorMessage={errorMessage}
       />
-      <Snackbar
+      <NotificationSnackbar
         open={snackbarOpen}
-        autoHideDuration={3000} // Змінено на 3 секунди
+        message={snackbarMessage}
+        severity={snackbarSeverity}
         onClose={handleSnackbarClose}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }} // Відцентровка повідомлення
-      >
-        <MuiAlert onClose={handleSnackbarClose} severity={snackbarSeverity} sx={{ width: '100%' }}>
-          {snackbarMessage}
-        </MuiAlert>
-      </Snackbar>
+      />
     </div>
   );
-}
+};
 
 export default ExercisesList;

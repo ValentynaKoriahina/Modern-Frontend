@@ -6,7 +6,7 @@ const result = {
   [pages.login]: `${config.UI_URL_PREFIX}/${pages.login}`,
   [pages.secretPage]: `${config.UI_URL_PREFIX}/${pages.secretPage}`,
   [pages.exercisesList]: `${config.UI_URL_PREFIX}/${pages.exercisesList}`,
-  [pages.exercise]: `${config.UI_URL_PREFIX}/${pages.exercise}/:id`,
+  [pages.exercise]: `${config.UI_URL_PREFIX}/${pages.exercise}`,
 
 };
 

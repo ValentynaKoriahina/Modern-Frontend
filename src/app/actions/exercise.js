@@ -171,7 +171,7 @@ const deleteExercise = (exerciseId) => (dispatch) => {
 const mockDeleteExercise = () => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      const isSuccess = false;
+      const isSuccess = true;
 
       if (isSuccess) {
         resolve();
