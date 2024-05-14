@@ -8,7 +8,6 @@ import TrashBinIcon from 'pages/exercisesList/components/icons/TrashBinIcon';
 import DeleteConfirmationDialog from '../components/DeleteConfirmationDialog';
 import NotificationSnackbar from '../components/NotificationSnackbar';
 import { Link } from 'react-router-dom';
-// import config from './config';
 import pages from 'constants/pagesURLs';
 
 function ExercisesList() {
