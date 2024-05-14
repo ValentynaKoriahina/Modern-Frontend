@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   BrowserRouter,
   Routes,
@@ -17,10 +17,17 @@ import LoginPage from 'pageProviders/Login';
 import PageContainer from 'pageProviders/components/PageContainer';
 import pageURLs from 'constants/pagesURLs';
 import SecretPage from 'pageProviders/Secret';
+import Exercises from 'pageProviders/ExercisesList';
+
+
+
 import ThemeProvider from 'misc/providers/ThemeProvider';
 import UserProvider from 'misc/providers/UserProvider';
 
 import actionsUser from '../actions/user';
+import actionsExercise from '../actions/exercise';
+
+
 import Header from '../components/Header';
 import IntlProvider from '../components/IntlProvider';
 import MissedPage from '../components/MissedPage';
@@ -78,6 +85,12 @@ function App() {
                     <Route
                       element={<SecretPage />}
                       path={`${pageURLs[pages.secretPage]}`}
+                    />
+                    <Route
+                      element={(
+                        <Exercises />
+                      )}
+                      path={`${pageURLs[pages.exercisesList]}`}
                     />
                     <Route
                       element={(
