@@ -7,11 +7,13 @@ import IconButton from 'components/IconButton/IconButton';
 import TrashBinIcon from 'pages/exercisesList/components/icons/TrashBinIcon';
 import DeleteConfirmationDialog from '../components/DeleteConfirmationDialog';
 import NotificationSnackbar from '../components/NotificationSnackbar';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // CHANGES!!
 import pages from 'constants/pagesURLs';
+import Button from 'components/Button/Button'; // CHANGES!!
 
 function ExercisesList() {
   const dispatch = useDispatch();
+  const navigate = useNavigate(); // CHANGES!!
   const { exercises, isLoading, error } = useSelector((state) => state.exercises);
   const [hoveredExercise, setHoveredExercise] = useState(null);
 
@@ -38,7 +40,6 @@ function ExercisesList() {
     setErrorMessage('');
   };
 
-
   const handleConfirmDelete = () => {
     if (selectedExercise) {
       setLoading(true);
@@ -54,7 +55,6 @@ function ExercisesList() {
         })
         .finally(() => {
           setLoading(false);
-
         });
     }
   };
@@ -66,6 +66,10 @@ function ExercisesList() {
     setSnackbarOpen(false);
   };
 
+  const handleAddEntityClick = () => { // CHANGES!!
+    navigate(`${pages.exercise}/new`); // CHANGES!!
+  }; // CHANGES!!
+
   if (isLoading && showDeleteDialog !== true) {
     return <div>Loading...</div>;
   }
@@ -76,6 +80,7 @@ function ExercisesList() {
 
   return (
     <div>
+      <Button onClick={handleAddEntityClick}>Додати сутність</Button> {/* CHANGES!! */}
       <ul>
         {exercises.map((exercise) => (
           <li
@@ -109,6 +114,6 @@ function ExercisesList() {
       />
     </div>
   );
-};
+}
 
 export default ExercisesList;

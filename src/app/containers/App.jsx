@@ -95,6 +95,10 @@ function App() {
                       path={`${pageURLs[pages.exercise]}/:id`}
                     />
                     <Route
+                      element={(<ExerciseDetails />)}
+                      path={`${pageURLs[pages.exercise]}/new`}
+                    />
+                    <Route
                       element={(
                         <LoginPage
                           errors={errors}
