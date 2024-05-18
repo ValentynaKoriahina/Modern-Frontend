@@ -6,10 +6,14 @@ import {
   REQUEST_EXERCISES,
   RECEIVE_EXERCISES,
   ADD_EXERCISE,
-  EDIT_EXERCISE,
   DELETE_EXERCISE,
   REQUEST_DELETE_EXERCISE,
   ERROR_DELETE_EXERCISE,
+  REQUEST_ADD_EXERCISE,
+  ERROR_ADD_EXERCISE,
+  EDIT_EXERCISE,
+  REQUEST_EDIT_EXERCISE,
+  ERROR_EDIT_EXERCISE,
 } from '../constants/actionTypes';
 
 // Действия для получения списка уроков
@@ -100,11 +104,11 @@ const MOCK_EXERCISES_RESPONSE = [
 ];
 
 const fetchExercises = () => (dispatch) => {
-  dispatch(requestExercises()); // Диспатч действия о начале запроса
+  dispatch(requestExercises());
 
   return getExercises()
     .then(exercises => {
-      dispatch(receiveExercises(exercises)); // Диспатч действия о получении упражнений
+      dispatch(receiveExercises(exercises));
     })
     .catch(error => {
       console.error('Failed to fetch exercises:', error);
@@ -144,14 +148,13 @@ const errorDeleteExercise = (error) => ({
 
 // Асинхронное действие для удаления упражнения
 const deleteExercise = (exerciseId) => (dispatch) => {
-  dispatch(requestDeleteExercise()); // Диспатч действия о начале удаления
+  dispatch(requestDeleteExercise());
 
   return axios.delete(`${config.EXERCISES_SERVICE}/exercises/delete/${exerciseId}`)
     .then(response => {
       dispatch(deleteExerciseSuccess(exerciseId));
     })
     .catch(error => {
-      console.error('Failed to delete exercise:', error);
       return mockDeleteExercise(exerciseId)
         .then(() => {
           dispatch(deleteExerciseSuccess(exerciseId));
@@ -183,5 +186,113 @@ const mockDeleteExercise = () => {
 };
 
 
-export { fetchExercises, deleteExercise };
+// Действия для добавления упражнения // CHANGES!!
+const requestAddExercise = () => ({
+  type: REQUEST_ADD_EXERCISE,
+});
+
+const addExerciseSuccess = (exercise) => ({
+  type: ADD_EXERCISE,
+  payload: exercise,
+});
+
+const errorAddExercise = (error) => ({
+  type: ERROR_ADD_EXERCISE,
+  payload: error,
+});
+
+
+const addExercise = (exercise) => (dispatch) => {
+  dispatch(requestAddExercise());
+
+  console.log(exercise)
+
+  return axios.post(`${config.EXERCISES_SERVICE}/exercises/add`, exercise)
+    .then(response => dispatch(addExerciseSuccess(response.data)))
+    .catch(error => {
+      return mockAddExercise(exercise) // Вызов моковой функции для добавления упражнения
+        .then(() => {
+          alert('Задачу збережено')
+          dispatch(addExerciseSuccess(exercise));
+        })
+        .catch(mockError => {
+          console.error('Failed to add exercise:', error);
+          dispatch(errorAddExercise('Failed to add exercise.'));
+          throw error;
+        });
+      // console.error('Failed to add exercise:', error);
+      // dispatch(errorAddExercise('Failed to add exercise.'));
+      // throw error;
+    });
+};
+
+// Моковая функция для добавления упражнения
+const mockAddExercise = (exercise) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const isSuccess = true;
+
+      if (isSuccess) {
+        const newExercise = { ...exercise, id: Date.now() };
+        resolve(newExercise);
+      } else {
+        reject(new Error('Ошибка добавления задачи'));
+      }
+    }, 1000);
+  });
+};
+
+
+// Действия для редактирования упражнения // CHANGES!!
+const requestEditExercise = () => ({
+  type: REQUEST_EDIT_EXERCISE,
+});
+
+const editExerciseSuccess = (exercise) => ({
+  type: EDIT_EXERCISE,
+  payload: exercise,
+});
+
+const errorEditExercise = (error) => ({
+  type: ERROR_EDIT_EXERCISE,
+  payload: error,
+});
+
+const editExercise = (exercise) => (dispatch) => {
+  dispatch(requestEditExercise());
+
+  return axios.put(`${config.EXERCISES_SERVICE}/exercises/edit/${exercise.id}`, exercise)
+    .then(response => dispatch(editExerciseSuccess(response.data)))
+    .catch(error => {
+      return mockEditExercise(exercise)
+        .then(() => {
+          dispatch(editExerciseSuccess(exercise));
+        })
+        .catch(mockError => {
+          console.error('Failed to edit exercise:', error);
+          dispatch(errorEditExercise('Failed to edit exercise.'));
+          throw error;
+        });
+        // console.error('Failed to edit exercise:', error);
+        // dispatch(errorEditExercise('Failed to edit exercise.'));
+        // throw error;
+    });
+};
+
+// Моковая функция для редактирования упражнения
+const mockEditExercise = (exercise) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const isSuccess = true;
+
+      if (isSuccess) {
+        resolve(exercise);
+      } else {
+        reject(new Error('Ошибка редактирования задачи'));
+      }
+    }, 1000);
+  });
+};
+
+export { fetchExercises, deleteExercise, addExercise, editExercise }; // CHANGES!!
 

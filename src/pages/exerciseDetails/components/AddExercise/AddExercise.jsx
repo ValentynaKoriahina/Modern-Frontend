@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-// import { saveExercise } from '../../../app/actions/exercise';
+import { useParams, useNavigate } from 'react-router-dom';
+import { addExercise } from 'app/actions/exercise'; // CHANGES!!
 import Button from 'components/Button/Button';
 
 const EntityDetail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const entity = useSelector(state => state.exercises.exercises.find(e => e.id === parseInt(id, 10)));
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     topic: '',
@@ -37,7 +38,6 @@ const EntityDetail = () => {
         rate: entity.rate
       });
     } else {
-      // Пустые поля для создания новой сущности
       setFormData({
         topic: '',
         difficultyRange: '',
@@ -64,27 +64,32 @@ const EntityDetail = () => {
       ...formData,
       tags: formData.tags.split(',').map(tag => tag.trim())
     };
-    // dispatch(saveExercise(updatedEntity));
+
+    if (id) {
+      // dispatch(saveExercise(updatedEntity)).then(() => navigate(-1));
+    } else {
+      dispatch(addExercise(updatedEntity));
+    }
   };
 
   if (id && !entity) {
-    return <div>Сущность не найдена</div>;
+    return <div>Задачу не знайдено</div>;
   }
 
   return (
     <div>
-      <h1>{id ? `Редактирование: ${entity.topic}` : 'Создание новой сущности'}</h1>
+      <h1>{id ? `Редагування: ${entity.topic}` : 'Створення нової задачі'}</h1>
       <form>
         <div>
           <label>Тема:</label>
           <input name="topic" value={formData.topic} onChange={handleChange} />
         </div>
         <div>
-          <label>Сложность:</label>
+          <label>Складність:</label>
           <input name="difficultyRange" value={formData.difficultyRange} onChange={handleChange} />
         </div>
         <div>
-          <label>Уровень студента:</label>
+          <label>Рівень студента:</label>
           <input name="studentLevel" value={formData.studentLevel} onChange={handleChange} />
         </div>
         <div>
@@ -100,7 +105,7 @@ const EntityDetail = () => {
           <input name="tags" value={formData.tags} onChange={handleChange} />
         </div>
         <div>
-          <label>Стратегия решения:</label>
+          <label>Стратегія розв'язання:</label>
           <input name="solutionStrategy" value={formData.solutionStrategy} onChange={handleChange} />
         </div>
         <div>
@@ -108,16 +113,17 @@ const EntityDetail = () => {
           <input name="PGN" value={formData.PGN} onChange={handleChange} />
         </div>
         <div>
-          <label>Целевые навыки:</label>
+          <label>Цільові навички:</label>
           <input name="targetSkills" value={formData.targetSkills} onChange={handleChange} />
         </div>
         <div>
-          <label>Оценка:</label>
+          <label>Оцінка:</label>
           <input name="rate" value={formData.rate} onChange={handleChange} />
         </div>
-        <Button onClick={handleSave}>Сохранить</Button>
+        <Button onClick={handleSave}>Зберегти</Button>
       </form>
     </div>
+
   );
 };
 

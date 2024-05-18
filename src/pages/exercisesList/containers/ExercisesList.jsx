@@ -80,7 +80,7 @@ function ExercisesList() {
 
   return (
     <div>
-      <Button onClick={handleAddEntityClick}>Додати сутність</Button> {/* CHANGES!! */}
+      <Button onClick={handleAddEntityClick}>Додати задачу</Button> {/* CHANGES!! */}
       <ul>
         {exercises.map((exercise) => (
           <li
