@@ -1,33 +1,27 @@
 import React from 'react';
-import { Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
+import { Dialog, DialogContent, DialogActions } from '@material-ui/core';
 import Button from 'components/Button';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Typography from '@material-ui/core/Typography';
+import CustomCircularProgress from '../CustomCircularProgress';
+import CustomTypography from '../CustomTypography';
 
 function DeleteConfirmationDialog({ open, onClose, onConfirm, loading, errorMessage }) {
   return (
     <Dialog open={open} onClose={loading ? null : onClose}>
       <DialogContent>
         {errorMessage ? (
-          <Typography color="error">{errorMessage}</Typography>
+          <CustomTypography color="error">{errorMessage}</CustomTypography>
         ) : (
           'Ви впевнені, що хочете видалити?'
         )}
       </DialogContent>
       <DialogActions>
-        {errorMessage ? (
-          <Button onClick={onClose} color="primary" autoFocus>
-            Закрити
+        <Button onClick={onClose} color="primary" disabled={loading}>
+          Скасувати
+        </Button>
+        {!errorMessage && (
+          <Button onClick={onConfirm} color="primary" autoFocus disabled={loading}>
+            {loading ? <CustomCircularProgress size={24} /> : 'Видалити'}
           </Button>
-        ) : (
-          <>
-            <Button onClick={onClose} color="primary" disabled={loading}>
-              Скасувати
-            </Button>
-            <Button onClick={onConfirm} color="primary" autoFocus disabled={loading}>
-              {loading ? <CircularProgress size={24} /> : 'Видалити'}
-            </Button>
-          </>
         )}
       </DialogActions>
     </Dialog>

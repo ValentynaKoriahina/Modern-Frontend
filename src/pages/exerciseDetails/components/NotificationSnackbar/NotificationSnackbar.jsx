@@ -17,4 +17,4 @@ const NotificationSnackbar = ({ open, message, severity, onClose }) => {
   );
 };
 
-export default NotificationSnackbar;
+export default NotificationSnackbar; 

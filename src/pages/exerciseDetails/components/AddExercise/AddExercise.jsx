@@ -1,146 +1,14 @@
-// import React, { useState, useEffect } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { useParams, useNavigate } from 'react-router-dom';
-// import { addExercise } from 'app/actions/exercise'; // CHANGES!!
-// import Button from 'components/Button/Button';
-
-// const EntityDetail = () => {
-//   const { id } = useParams();
-//   const dispatch = useDispatch();
-//   const entity = useSelector(state => state.exercises.exercises.find(e => e.id === parseInt(id, 10)));
-//   const navigate = useNavigate();
-
-//   const [formData, setFormData] = useState({
-//     topic: '',
-//     difficultyRange: '',
-//     studentLevel: '',
-//     mode: '',
-//     type: '',
-//     tags: '',
-//     solutionStrategy: '',
-//     PGN: '',
-//     targetSkills: '',
-//     rate: ''
-//   });
-
-//   useEffect(() => {
-//     if (entity) {
-//       setFormData({
-//         topic: entity.topic,
-//         difficultyRange: entity.difficultyRange,
-//         studentLevel: entity.studentLevel,
-//         mode: entity.mode,
-//         type: entity.type,
-//         tags: entity.tags.join(', '),
-//         solutionStrategy: entity.solutionStrategy,
-//         PGN: entity.PGN,
-//         targetSkills: entity.targetSkills,
-//         rate: entity.rate
-//       });
-//     } else {
-//       setFormData({
-//         topic: '',
-//         difficultyRange: '',
-//         studentLevel: '',
-//         mode: '',
-//         type: '',
-//         tags: '',
-//         solutionStrategy: '',
-//         PGN: '',
-//         targetSkills: '',
-//         rate: ''
-//       });
-//     }
-//   }, [entity]);
-
-//   const handleChange = (e) => {
-//     const { name, value } = e.target;
-//     setFormData({ ...formData, [name]: value });
-//   };
-
-//   const handleSave = () => {
-//     const updatedEntity = {
-//       ...entity,
-//       ...formData,
-//       tags: formData.tags.split(',').map(tag => tag.trim())
-//     };
-
-//     if (id) {
-//       // dispatch(saveExercise(updatedEntity)).then(() => navigate(-1));
-//     } else {
-//       dispatch(addExercise(updatedEntity));
-//     }
-//   };
-
-//   if (id && !entity) {
-//     return <div>Задачу не знайдено</div>;
-//   }
-
-//   return (
-//     <div>
-//       <h1>{id ? `Редагування: ${entity.topic}` : 'Створення нової задачі'}</h1>
-//       <form>
-//         <div>
-//           <label>Тема:</label>
-//           <input name="topic" value={formData.topic} onChange={handleChange} />
-//         </div>
-//         <div>
-//           <label>Складність:</label>
-//           <input name="difficultyRange" value={formData.difficultyRange} onChange={handleChange} />
-//         </div>
-//         <div>
-//           <label>Рівень студента:</label>
-//           <input name="studentLevel" value={formData.studentLevel} onChange={handleChange} />
-//         </div>
-//         <div>
-//           <label>Режим:</label>
-//           <input name="mode" value={formData.mode} onChange={handleChange} />
-//         </div>
-//         <div>
-//           <label>Тип:</label>
-//           <input name="type" value={formData.type} onChange={handleChange} />
-//         </div>
-//         <div>
-//           <label>Теги:</label>
-//           <input name="tags" value={formData.tags} onChange={handleChange} />
-//         </div>
-//         <div>
-//           <label>Стратегія розв'язання:</label>
-//           <input name="solutionStrategy" value={formData.solutionStrategy} onChange={handleChange} />
-//         </div>
-//         <div>
-//           <label>PGN:</label>
-//           <input name="PGN" value={formData.PGN} onChange={handleChange} />
-//         </div>
-//         <div>
-//           <label>Цільові навички:</label>
-//           <input name="targetSkills" value={formData.targetSkills} onChange={handleChange} />
-//         </div>
-//         <div>
-//           <label>Оцінка:</label>
-//           <input name="rate" value={formData.rate} onChange={handleChange} />
-//         </div>
-//         <Button onClick={handleSave}>Зберегти</Button>
-//       </form>
-//     </div>
-
-//   );
-// };
-
-// export default EntityDetail;
-
-
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
-import { addExercise } from 'app/actions/exercise'; // CHANGES!!
+import { addExercise } from 'app/actions/exercise';
 import Button from 'components/Button/Button';
-import './AddExercise.css' ; // CHANGES!!
+import './AddExercise.css' ;
 
-const EntityDetail = () => {
+const AddExercise = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const entity = useSelector(state => state.exercises.exercises.find(e => e.id === parseInt(id, 10)));
+  const exercise = useSelector(state => state.exercises.exercises.find(e => e.id === parseInt(id, 10)));
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -156,21 +24,21 @@ const EntityDetail = () => {
     rate: ''
   });
 
-  const [errors, setErrors] = useState({}); // CHANGES!!
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    if (entity) {
+    if (exercise) {
       setFormData({
-        topic: entity.topic,
-        difficultyRange: entity.difficultyRange,
-        studentLevel: entity.studentLevel,
-        mode: entity.mode,
-        type: entity.type,
-        tags: entity.tags.join(', '),
-        solutionStrategy: entity.solutionStrategy,
-        PGN: entity.PGN,
-        targetSkills: entity.targetSkills,
-        rate: entity.rate
+        topic: exercise.topic,
+        difficultyRange: exercise.difficultyRange,
+        studentLevel: exercise.studentLevel,
+        mode: exercise.mode,
+        type: exercise.type,
+        tags: exercise.tags.join(', '),
+        solutionStrategy: exercise.solutionStrategy,
+        PGN: exercise.PGN,
+        targetSkills: exercise.targetSkills,
+        rate: exercise.rate
       });
     } else {
       setFormData({
@@ -186,14 +54,14 @@ const EntityDetail = () => {
         rate: ''
       });
     }
-  }, [entity]);
+  }, [exercise]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const validate = () => { // CHANGES!!
+  const validate = () => {
     let formErrors = {};
     if (!formData.topic) formErrors.topic = 'Тема обов\'язкова';
     if (!formData.difficultyRange) formErrors.difficultyRange = 'Складність обов\'язкова';
@@ -206,84 +74,95 @@ const EntityDetail = () => {
   };
 
   const handleSave = () => {
-    if (!validate()) return; // CHANGES!!
-
-    const updatedEntity = {
-      ...entity,
+    if (!validate()) return;
+  
+    const updatedExercise = {
+      ...exercise,
       ...formData,
       tags: formData.tags.split(',').map(tag => tag.trim())
     };
-
-    if (id) {
-      // dispatch(saveExercise(updatedEntity)).then(() => navigate(-1));
-    } else {
-      dispatch(addExercise(updatedEntity));
-    }
+  
+    dispatch(addExercise(updatedExercise))
+    .then(() => navigate(-1))
+    .catch((error) => {
+      let errorMsg = 'Помила при створенні задачі.';
+      if (error.response && error.response.data) {
+        if (typeof error.response.data === 'string') {
+          errorMsg = error.response.data;
+        } else if (Array.isArray(error.response.data)) {
+          errorMsg = error.response.data.join(', ');
+        } else if (typeof error.response.data === 'object') {
+          errorMsg = JSON.stringify(error.response.data);
+        }
+      }
+      alert(errorMsg, { variant: 'error' });
+      navigate(-1);
+    });
   };
 
-  const handleCancel = () => { // CHANGES!!
+  const handleCancel = () => {
     navigate(-1);
   };
 
-  if (id && !entity) {
+  if (id && !exercise) {
     return <div>Задачу не знайдено</div>;
   }
 
   return (
     <div>
-      <h1>{id ? `Редагування: ${entity.topic}` : 'Створення нової задачі'}</h1>
+      <h1>{id ? `Редагування: ${exercise.topic}` : 'Створення нової задачі'}</h1>
       <form>
         <div>
           <label>Тема:</label>
-          <input name="topic" value={formData.topic} onChange={handleChange} className={errors.topic ? 'error' : ''} /> {/* CHANGES!! */}
-          {errors.topic && <span className="error-message">{errors.topic}</span>} {/* CHANGES!! */}
+          <input name="topic" value={formData.topic} onChange={handleChange} className={errors.topic ? 'error' : ''} />
+          {errors.topic && <span className="error-message">{errors.topic}</span>}
         </div>
         <div>
           <label>Складність:</label>
-          <input name="difficultyRange" value={formData.difficultyRange} onChange={handleChange} className={errors.difficultyRange ? 'error' : ''} /> {/* CHANGES!! */}
-          {errors.difficultyRange && <span className="error-message">{errors.difficultyRange}</span>} {/* CHANGES!! */}
+          <input name="difficultyRange" value={formData.difficultyRange} onChange={handleChange} className={errors.difficultyRange ? 'error' : ''} />
+          {errors.difficultyRange && <span className="error-message">{errors.difficultyRange}</span>}
         </div>
         <div>
           <label>Рівень студента:</label>
-          <input name="studentLevel" value={formData.studentLevel} onChange={handleChange} className={errors.studentLevel ? 'error' : ''} /> {/* CHANGES!! */}
-          {errors.studentLevel && <span className="error-message">{errors.studentLevel}</span>} {/* CHANGES!! */}
+          <input name="studentLevel" value={formData.studentLevel} onChange={handleChange} className={errors.studentLevel ? 'error' : ''} />
+          {errors.studentLevel && <span className="error-message">{errors.studentLevel}</span>}
         </div>
         <div>
           <label>Режим:</label>
-          <input name="mode" value={formData.mode} onChange={handleChange} className={errors.mode ? 'error' : ''} /> {/* CHANGES!! */}
-          {errors.mode && <span className="error-message">{errors.mode}</span>} {/* CHANGES!! */}
+          <input name="mode" value={formData.mode} onChange={handleChange} className={errors.mode ? 'error' : ''} />
+          {errors.mode && <span className="error-message">{errors.mode}</span>}
         </div>
         <div>
           <label>Тип:</label>
-          <input name="type" value={formData.type} onChange={handleChange} className={errors.type ? 'error' : ''} /> {/* CHANGES!! */}
-          {errors.type && <span className="error-message">{errors.type}</span>} {/* CHANGES!! */}
+          <input name="type" value={formData.type} onChange={handleChange} className={errors.type ? 'error' : ''} />
+          {errors.type && <span className="error-message">{errors.type}</span>}
         </div>
         <div>
           <label>Теги:</label>
-          <input name="tags" value={formData.tags} onChange={handleChange} /> {/* CHANGES!! */}
+          <input name="tags" value={formData.tags} onChange={handleChange} />
         </div>
         <div>
           <label>Стратегія розв'язання:</label>
-          <input name="solutionStrategy" value={formData.solutionStrategy} onChange={handleChange} /> {/* CHANGES!! */}
+          <input name="solutionStrategy" value={formData.solutionStrategy} onChange={handleChange} />
         </div>
         <div>
           <label>PGN:</label>
-          <input name="PGN" value={formData.PGN} onChange={handleChange} className={errors.PGN ? 'error' : ''} /> {/* CHANGES!! */}
-          {errors.PGN && <span className="error-message">{errors.PGN}</span>} {/* CHANGES!! */}
+          <input name="PGN" value={formData.PGN} onChange={handleChange} className={errors.PGN ? 'error' : ''} />
+          {errors.PGN && <span className="error-message">{errors.PGN}</span>}
         </div>
         <div>
           <label>Цільові навички:</label>
-          <input name="targetSkills" value={formData.targetSkills} onChange={handleChange} /> {/* CHANGES!! */}
+          <input name="targetSkills" value={formData.targetSkills} onChange={handleChange} />
         </div>
         <div>
           <label>Оцінка:</label>
-          <input name="rate" value={formData.rate} onChange={handleChange} /> {/* CHANGES!! */}
+          <input name="rate" value={formData.rate} onChange={handleChange} />
         </div>
         <Button onClick={handleSave}>Зберегти</Button>
-        <Button onClick={handleCancel} type="button">Скасувати</Button> {/* CHANGES!! */}
+        <Button onClick={handleCancel} type="button">Скасувати</Button>
       </form>
     </div>
   );
 };
 
-export default EntityDetail;
+export default AddExercise;
