@@ -456,14 +456,17 @@ const fetchExercises = () => (dispatch) => {
 
 
 const getExercises = () => {
-  const { EXERCISES_SERVICE } = config;
-  return axios.get(`${EXERCISES_SERVICE}/exercises/get`)
-    .then(response => {
-      return response.data;
-    })
-    .catch(error => {
-      return MOCK_EXERCISES_RESPONSE;
-    });
+  return Promise.resolve(MOCK_EXERCISES_RESPONSE);
+  // const { EXERCISES_SERVICE } = config;
+
+  // return axios.get(`${EXERCISES_SERVICE}/exercises/get`)
+  //   .then(response => {
+  //     return response.data;
+  //   })
+  //   .catch(error => {
+  //     console.log("Перехват ошибки");
+  //     return MOCK_EXERCISES_RESPONSE;
+  //   });
 };
 
 
