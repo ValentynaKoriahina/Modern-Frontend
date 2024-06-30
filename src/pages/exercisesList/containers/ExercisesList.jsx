@@ -9,6 +9,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import pages from 'constants/pagesURLs';
 import Button from 'components/Button/Button';
 
+
 function ExercisesList() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -79,13 +80,19 @@ function ExercisesList() {
     setCurrentPage(pageNumber);
   };
 
-  if (isLoading && showDeleteDialog !== true) {
+  if (isLoading) {
     return <div>Loading...</div>;
   }
 
-  // if (error) {
-  //   return <div>Error: {error.message}</div>;
-  // }
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  if (!exercises) {
+    window.location.reload();
+  
+    return null;
+  }
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -142,5 +149,6 @@ function ExercisesList() {
     </div>
   );
 }
+
 
 export default ExercisesList;

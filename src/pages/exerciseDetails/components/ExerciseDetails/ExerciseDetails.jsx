@@ -23,7 +23,7 @@ const ExerciseDetails = ({ action }) => {
     type: '',
     tags: '',
     solutionStrategy: '',
-    PGN: '',
+    pgn: '',
     targetSkills: '',
     rate: ''
   });
@@ -37,7 +37,7 @@ const ExerciseDetails = ({ action }) => {
         mode: exercise.mode,
         type: exercise.type,
         solutionStrategy: exercise.solutionStrategy,
-        PGN: exercise.PGN,
+        pgn: exercise.pgn,
         targetSkills: exercise.targetSkills,
         rate: exercise.rate
       });
@@ -50,7 +50,7 @@ const ExerciseDetails = ({ action }) => {
         type: '',
         tags: '',
         solutionStrategy: '',
-        PGN: '',
+        pgn: '',
         targetSkills: '',
         rate: ''
       });
@@ -69,19 +69,44 @@ const ExerciseDetails = ({ action }) => {
     if (!formData.studentLevel) formErrors.studentLevel = 'Рівень студента обов\'язковий';
     if (!formData.mode) formErrors.mode = 'Режим обов\'язковий';
     if (!formData.type) formErrors.type = 'Тип обов\'язковий';
-    if (!formData.PGN) formErrors.PGN = 'PGN обов\'язковий';
+    if (!formData.pgn) formErrors.pgn = 'PGN обов\'язковий';
     setErrors(formErrors);
     return Object.keys(formErrors).length === 0;
   };
 
+  // const handleSave = () => {
+  //   if (!validate()) return;
+
+  //   const updatedExercise = {
+  //     ...exercise,
+  //     ...formData,
+  //     tags: formData.tags.split(',').map(tag => tag.trim())
+  //   };
+  //   dispatch(editExercise(updatedExercise))
+  //     .then(() => {
+  //       setIsEditing(false);
+  //       setNotification({ open: true, message: 'Зміни збережено', severity: 'success' });
+  //     })
+  //     .catch(error => {
+  //       console.error('Failed to save exercise:', error);
+  //       setNotification({ open: true, message: 'Помилка при збереженні', severity: 'error' });
+  //     });
+  // };
+
   const handleSave = () => {
     if (!validate()) return;
-
+  
+    let updatedTags = [];
+    if (formData.tags) {
+      updatedTags = formData.tags.split(',').map(tag => tag.trim());
+    }
+  
     const updatedExercise = {
       ...exercise,
       ...formData,
-      tags: formData.tags.split(',').map(tag => tag.trim())
+      tags: updatedTags
     };
+  
     dispatch(editExercise(updatedExercise))
       .then(() => {
         setIsEditing(false);
@@ -92,6 +117,7 @@ const ExerciseDetails = ({ action }) => {
         setNotification({ open: true, message: 'Помилка при збереженні', severity: 'error' });
       });
   };
+  
 
   const handleCancel = () => {
     setIsEditing(false);
@@ -104,7 +130,7 @@ const ExerciseDetails = ({ action }) => {
         type: exercise.type,
         tags: exercise.tags.join(', '),
         solutionStrategy: exercise.solutionStrategy,
-        PGN: exercise.PGN,
+        pgn: exercise.pgn,
         targetSkills: exercise.targetSkills,
         rate: exercise.rate
       });
@@ -117,7 +143,7 @@ const ExerciseDetails = ({ action }) => {
         type: '',
         tags: '',
         solutionStrategy: '',
-        PGN: '',
+        pgn: '',
         targetSkills: '',
         rate: ''
       });
@@ -180,8 +206,8 @@ const ExerciseDetails = ({ action }) => {
                 </div>
                 <div>
                   <label>PGN:</label>
-                  <input name="PGN" value={formData.PGN} onChange={handleChange} className={errors.PGN ? 'error' : ''} />
-                  {errors.PGN && <span className="error-message">{errors.PGN}</span>}
+                  <input name="pgn" value={formData.pgn} onChange={handleChange} className={errors.pgn ? 'error' : ''} />
+                  {errors.pgn && <span className="error-message">{errors.pgn}</span>}
                 </div>
                 <div>
                   <label>Цільові навички:</label>
@@ -206,7 +232,7 @@ const ExerciseDetails = ({ action }) => {
               <p><strong>Режим:</strong> {exercise.mode}</p>
               <p><strong>Тип:</strong> {exercise.type}</p>
               <p><strong>Стратегія розв'язання:</strong> {exercise.solutionStrategy}</p>
-              <pre><strong>PGN:</strong> {exercise.PGN}</pre>
+              <pre><strong>PGN:</strong> {exercise.pgn}</pre>
               <p><strong>Цільові навички:</strong> {exercise.targetSkills}</p>
               <p><strong>Оцінка:</strong> {exercise.rate}</p>
             </div>

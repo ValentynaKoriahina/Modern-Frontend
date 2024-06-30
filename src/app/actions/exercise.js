@@ -461,7 +461,6 @@ const getExercises = () => {
 
   return axios.get(`${EXERCISES_SERVICE}/api/chess_exercise/all`)
     .then(response => {
-      console.log(response.data)
       return response.data;
     })
     .catch(error => {
@@ -490,7 +489,7 @@ const errorDeleteExercise = (error) => ({
 const deleteExercise = (exerciseId) => (dispatch) => {
   dispatch(requestDeleteExercise());
 
-  return axios.delete(`${config.EXERCISES_SERVICE}/exercises/delete/${exerciseId}`)
+  return axios.delete(`${config.EXERCISES_SERVICE}/api/chess_exercise/${exerciseId}`)
     .then(response => {
       dispatch(deleteExerciseSuccess(exerciseId));
     })
@@ -547,23 +546,25 @@ const addExercise = (exercise) => (dispatch) => {
 
   console.log(exercise)
 
-  return axios.post(`${config.EXERCISES_SERVICE}/exercises/add`, exercise)
-    .then(response => dispatch(addExerciseSuccess(response.data)))
-    .catch(error => {
-      return mockAddExercise(exercise)
-        .then(() => {
-          alert('Задачу збережено')
-          dispatch(addExerciseSuccess(exercise));
-        })
-        .catch(mockError => {
-          console.error('Не вдалося додати задачу:', error);
-          dispatch(errorAddExercise('Не вдалося додати задачу.'));
-          throw error;
-        });
-        // console.error('Не вдалося додати задачу:', error);
-        // dispatch(errorAddExercise('Не вдалося додати задачу.'));
-        // throw error;
-    });
+  return axios.post(`${config.EXERCISES_SERVICE}/api/chess_exercise`, exercise)
+  .then(response => {
+    console.log('Успешный ответ от сервера:', response); // Добавляем вывод для отладки
+    dispatch(addExerciseSuccess(response));
+  })
+  .catch(error => {
+    console.error('Ошибка при запросе к серверу:', error);
+    return mockAddExercise(exercise)
+      .then(() => {
+        alert('Задача сохранена'); // Изменено на 'Задача сохранена' для соответствия контексту
+        dispatch(addExerciseSuccess(exercise));
+      })
+      .catch(mockError => {
+        console.error('Не удалось добавить задачу:', mockError);
+        dispatch(errorAddExercise('Не удалось добавить задачу.'));
+        throw error;
+      });
+  });
+
 };
 
 // Мокова функція додавання задачі
@@ -601,7 +602,7 @@ const errorEditExercise = (error) => ({
 const editExercise = (exercise) => (dispatch) => {
   dispatch(requestEditExercise());
 
-  return axios.put(`${config.EXERCISES_SERVICE}/exercises/edit/${exercise.id}`, exercise)
+  return axios.put(`${config.EXERCISES_SERVICE}/api/chess_exercise/${exercise.id}`, exercise)
     .then(response => dispatch(editExerciseSuccess(response.data)))
     .catch(error => {
       return mockEditExercise(exercise)
