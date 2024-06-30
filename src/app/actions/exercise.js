@@ -467,7 +467,7 @@ const getExercises = () => {
     })
     .catch(error => {
       console.error(`Failed to fetch exercises from ${EXERCISES_SERVICE}/api/chess_exercise/all:`, error);
-      console.log(`Failed to fetch exercises from ${EXERCISES_SERVICE}/api/chess_exercise/all: проблема пов'язана з використанням самопідписаного сертифікату та Axios. Будь ласка, додайте у Вашому браузері виключення безпеки для ${EXERCISES_SERVICE} :-)`);
+      console.log(`Failed to fetch exercises from ${EXERCISES_SERVICE}/api/chess_exercise/all: проблема пов'язана з використанням самопідписаного сертифікату та Axios. Будь ласка, додайте у Вашому браузері виключення безпеки для ${EXERCISES_SERVICE} і оновіть сторінку :-)`);
       return []; // Вернуть пустой массив в случае ошибки
     });
 };
