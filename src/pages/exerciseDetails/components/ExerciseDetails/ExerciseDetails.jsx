@@ -36,7 +36,6 @@ const ExerciseDetails = ({ action }) => {
         studentLevel: exercise.studentLevel,
         mode: exercise.mode,
         type: exercise.type,
-        tags: exercise.tags.join(', '),
         solutionStrategy: exercise.solutionStrategy,
         PGN: exercise.PGN,
         targetSkills: exercise.targetSkills,
@@ -206,7 +205,6 @@ const ExerciseDetails = ({ action }) => {
               <p><strong>Рівень студента:</strong> {exercise.studentLevel}</p>
               <p><strong>Режим:</strong> {exercise.mode}</p>
               <p><strong>Тип:</strong> {exercise.type}</p>
-              <p><strong>Теги:</strong> {exercise.tags.join(', ')}</p>
               <p><strong>Стратегія розв'язання:</strong> {exercise.solutionStrategy}</p>
               <pre><strong>PGN:</strong> {exercise.PGN}</pre>
               <p><strong>Цільові навички:</strong> {exercise.targetSkills}</p>

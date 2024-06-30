@@ -456,17 +456,18 @@ const fetchExercises = () => (dispatch) => {
 
 
 const getExercises = () => {
-  return Promise.resolve(MOCK_EXERCISES_RESPONSE);
-  // const { EXERCISES_SERVICE } = config;
+  // return Promise.resolve(MOCK_EXERCISES_RESPONSE);
+  const { EXERCISES_SERVICE } = config;
 
-  // return axios.get(`${EXERCISES_SERVICE}/exercises/get`)
-  //   .then(response => {
-  //     return response.data;
-  //   })
-  //   .catch(error => {
-  //     console.log("Перехват ошибки");
-  //     return MOCK_EXERCISES_RESPONSE;
-  //   });
+  return axios.get(`${EXERCISES_SERVICE}/api/chess_exercise/all`)
+    .then(response => {
+      console.log(response.data)
+      return response.data;
+    })
+    .catch(error => {
+      console.log(error);
+      return MOCK_EXERCISES_RESPONSE;
+    });
 };
 
 
