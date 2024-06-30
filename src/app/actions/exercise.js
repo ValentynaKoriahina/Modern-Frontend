@@ -16,6 +16,8 @@ import {
   ERROR_EDIT_EXERCISE,
 } from '../constants/actionTypes';
 
+
+
 // Дії отримання списку задач
 const receiveExercises = (exercises) => ({
   type: RECEIVE_EXERCISES,
@@ -464,8 +466,9 @@ const getExercises = () => {
       return response.data;
     })
     .catch(error => {
-      console.log(error);
-      return MOCK_EXERCISES_RESPONSE;
+      console.error(`Failed to fetch exercises from ${EXERCISES_SERVICE}/api/chess_exercise/all:`, error);
+      console.log(`Failed to fetch exercises from ${EXERCISES_SERVICE}/api/chess_exercise/all: проблема пов'язана з використанням самопідписаного сертифікату та Axios. Будь ласка, додайте у Вашому браузері виключення безпеки для ${EXERCISES_SERVICE} :-)`);
+      return []; // Вернуть пустой массив в случае ошибки
     });
 };
 
